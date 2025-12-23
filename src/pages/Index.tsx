@@ -36,6 +36,8 @@ const Index = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [subscriptionDialogOpen, setSubscriptionDialogOpen] = useState(false);
   const [selectedSubscription, setSelectedSubscription] = useState<Subscription | null>(null);
+  const [productDialogOpen, setProductDialogOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const products: Product[] = [
     {
@@ -380,7 +382,13 @@ const Index = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                   {products.map((product, index) => (
                     <Card key={product.id} className="overflow-hidden group hover:shadow-xl transition-all animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
-                      <div className="relative h-64 overflow-hidden">
+                      <div 
+                        className="relative h-64 overflow-hidden cursor-pointer"
+                        onClick={() => {
+                          setSelectedProduct(product);
+                          setProductDialogOpen(true);
+                        }}
+                      >
                         <img 
                           src={product.image} 
                           alt={product.name}
@@ -389,6 +397,9 @@ const Index = () => {
                         <Badge className="absolute top-4 right-4 bg-accent text-accent-foreground">
                           {product.category}
                         </Badge>
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                          <Icon name="Eye" className="text-white opacity-0 group-hover:opacity-100 transition-opacity" size={32} />
+                        </div>
                       </div>
                       <CardHeader>
                         <CardTitle className="text-xl">{product.name}</CardTitle>
@@ -400,9 +411,19 @@ const Index = () => {
                           <span className="text-sm text-muted-foreground">{product.weight}</span>
                         </div>
                       </CardContent>
-                      <CardFooter>
+                      <CardFooter className="flex gap-2">
                         <Button 
-                          className="w-full" 
+                          variant="outline"
+                          className="flex-1"
+                          onClick={() => {
+                            setSelectedProduct(product);
+                            setProductDialogOpen(true);
+                          }}
+                        >
+                          Подробнее
+                        </Button>
+                        <Button 
+                          className="flex-1" 
                           onClick={addToCart}
                         >
                           <Icon name="ShoppingCart" size={16} className="mr-2" />
@@ -431,12 +452,21 @@ const Index = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {products.map((product) => (
                       <Card key={product.id} className="overflow-hidden group hover:shadow-xl transition-all">
-                        <div className="relative h-64 overflow-hidden">
+                        <div 
+                          className="relative h-64 overflow-hidden cursor-pointer"
+                          onClick={() => {
+                            setSelectedProduct(product);
+                            setProductDialogOpen(true);
+                          }}
+                        >
                           <img 
                             src={product.image} 
                             alt={product.name}
                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                           />
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                            <Icon name="Eye" className="text-white opacity-0 group-hover:opacity-100 transition-opacity" size={32} />
+                          </div>
                         </div>
                         <CardHeader>
                           <CardTitle className="text-xl">{product.name}</CardTitle>
@@ -448,8 +478,18 @@ const Index = () => {
                             <span className="text-sm text-muted-foreground">{product.weight}</span>
                           </div>
                         </CardContent>
-                        <CardFooter>
-                          <Button className="w-full" onClick={addToCart}>
+                        <CardFooter className="flex gap-2">
+                          <Button 
+                            variant="outline"
+                            className="flex-1"
+                            onClick={() => {
+                              setSelectedProduct(product);
+                              setProductDialogOpen(true);
+                            }}
+                          >
+                            Подробнее
+                          </Button>
+                          <Button className="flex-1" onClick={addToCart}>
                             <Icon name="ShoppingCart" size={16} className="mr-2" />
                             В корзину
                           </Button>
@@ -462,12 +502,21 @@ const Index = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {products.filter(p => p.category === 'Говядина' || p.category === 'Корзины').map((product) => (
                       <Card key={product.id} className="overflow-hidden group hover:shadow-xl transition-all">
-                        <div className="relative h-64 overflow-hidden">
+                        <div 
+                          className="relative h-64 overflow-hidden cursor-pointer"
+                          onClick={() => {
+                            setSelectedProduct(product);
+                            setProductDialogOpen(true);
+                          }}
+                        >
                           <img 
                             src={product.image} 
                             alt={product.name}
                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                           />
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                            <Icon name="Eye" className="text-white opacity-0 group-hover:opacity-100 transition-opacity" size={32} />
+                          </div>
                         </div>
                         <CardHeader>
                           <CardTitle className="text-xl">{product.name}</CardTitle>
@@ -479,8 +528,18 @@ const Index = () => {
                             <span className="text-sm text-muted-foreground">{product.weight}</span>
                           </div>
                         </CardContent>
-                        <CardFooter>
-                          <Button className="w-full" onClick={addToCart}>
+                        <CardFooter className="flex gap-2">
+                          <Button 
+                            variant="outline"
+                            className="flex-1"
+                            onClick={() => {
+                              setSelectedProduct(product);
+                              setProductDialogOpen(true);
+                            }}
+                          >
+                            Подробнее
+                          </Button>
+                          <Button className="flex-1" onClick={addToCart}>
                             <Icon name="ShoppingCart" size={16} className="mr-2" />
                             В корзину
                           </Button>
@@ -493,12 +552,21 @@ const Index = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {products.filter(p => p.category === 'Консервы').map((product) => (
                       <Card key={product.id} className="overflow-hidden group hover:shadow-xl transition-all">
-                        <div className="relative h-64 overflow-hidden">
+                        <div 
+                          className="relative h-64 overflow-hidden cursor-pointer"
+                          onClick={() => {
+                            setSelectedProduct(product);
+                            setProductDialogOpen(true);
+                          }}
+                        >
                           <img 
                             src={product.image} 
                             alt={product.name}
                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                           />
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                            <Icon name="Eye" className="text-white opacity-0 group-hover:opacity-100 transition-opacity" size={32} />
+                          </div>
                         </div>
                         <CardHeader>
                           <CardTitle className="text-xl">{product.name}</CardTitle>
@@ -510,8 +578,18 @@ const Index = () => {
                             <span className="text-sm text-muted-foreground">{product.weight}</span>
                           </div>
                         </CardContent>
-                        <CardFooter>
-                          <Button className="w-full" onClick={addToCart}>
+                        <CardFooter className="flex gap-2">
+                          <Button 
+                            variant="outline"
+                            className="flex-1"
+                            onClick={() => {
+                              setSelectedProduct(product);
+                              setProductDialogOpen(true);
+                            }}
+                          >
+                            Подробнее
+                          </Button>
+                          <Button className="flex-1" onClick={addToCart}>
                             <Icon name="ShoppingCart" size={16} className="mr-2" />
                             В корзину
                           </Button>
@@ -1041,6 +1119,73 @@ const Index = () => {
               Оформить подписку
             </Button>
           </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={productDialogOpen} onOpenChange={setProductDialogOpen}>
+        <DialogContent className="max-w-3xl">
+          {selectedProduct && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="text-2xl">{selectedProduct.name}</DialogTitle>
+                <DialogDescription>{selectedProduct.category}</DialogDescription>
+              </DialogHeader>
+              <div className="grid md:grid-cols-2 gap-6 py-4">
+                <div className="relative aspect-square rounded-lg overflow-hidden">
+                  <img 
+                    src={selectedProduct.image} 
+                    alt={selectedProduct.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="space-y-4">
+                  <div>
+                    <h3 className="font-semibold text-lg mb-2">Описание</h3>
+                    <p className="text-muted-foreground">{selectedProduct.description}</p>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center py-2 border-b">
+                      <span className="text-muted-foreground">Вес:</span>
+                      <span className="font-medium">{selectedProduct.weight}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-2 border-b">
+                      <span className="text-muted-foreground">Категория:</span>
+                      <Badge>{selectedProduct.category}</Badge>
+                    </div>
+                    <div className="flex justify-between items-center py-2">
+                      <span className="text-muted-foreground">Цена:</span>
+                      <span className="text-3xl font-bold text-primary">{selectedProduct.price} ₽</span>
+                    </div>
+                  </div>
+                  <div className="bg-muted/50 p-4 rounded-md space-y-2">
+                    <div className="flex items-start gap-2">
+                      <Icon name="Truck" className="text-primary mt-0.5" size={18} />
+                      <p className="text-sm">Бесплатная доставка при заказе от 3000 ₽</p>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Icon name="Shield" className="text-primary mt-0.5" size={18} />
+                      <p className="text-sm">Гарантия качества и свежести</p>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Icon name="Leaf" className="text-primary mt-0.5" size={18} />
+                      <p className="text-sm">100% натуральный продукт</p>
+                    </div>
+                  </div>
+                  <Button 
+                    className="w-full" 
+                    size="lg"
+                    onClick={() => {
+                      addToCart();
+                      setProductDialogOpen(false);
+                    }}
+                  >
+                    <Icon name="ShoppingCart" size={20} className="mr-2" />
+                    Добавить в корзину
+                  </Button>
+                </div>
+              </div>
+            </>
+          )}
         </DialogContent>
       </Dialog>
     </div>
