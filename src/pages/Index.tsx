@@ -4,6 +4,10 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import Icon from '@/components/ui/icon';
 
 interface Product {
@@ -30,6 +34,8 @@ const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [cartCount, setCartCount] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [subscriptionDialogOpen, setSubscriptionDialogOpen] = useState(false);
+  const [selectedSubscription, setSelectedSubscription] = useState<Subscription | null>(null);
 
   const products: Product[] = [
     {
@@ -553,7 +559,14 @@ const Index = () => {
                       </ul>
                     </CardContent>
                     <CardFooter className="pt-6">
-                      <Button className="w-full" variant={sub.popular ? 'default' : 'outline'}>
+                      <Button 
+                        className="w-full" 
+                        variant={sub.popular ? 'default' : 'outline'}
+                        onClick={() => {
+                          setSelectedSubscription(sub);
+                          setSubscriptionDialogOpen(true);
+                        }}
+                      >
                         Оформить подписку
                       </Button>
                     </CardFooter>
@@ -958,6 +971,78 @@ const Index = () => {
           </div>
         </div>
       </footer>
+
+      <Dialog open={subscriptionDialogOpen} onOpenChange={setSubscriptionDialogOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Оформление подписки</DialogTitle>
+            <DialogDescription>
+              {selectedSubscription?.name} — {selectedSubscription?.price} ₽ {selectedSubscription?.period}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="name">Ваше имя</Label>
+              <Input id="name" placeholder="Иван Иванов" />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="phone">Телефон</Label>
+              <Input id="phone" type="tel" placeholder="+7 (___) ___-__-__" />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input id="email" type="email" placeholder="your@email.com" />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="address">Адрес доставки</Label>
+              <Input id="address" placeholder="Москва, ул. Примерная, д. 1, кв. 1" />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="delivery-time">Удобное время доставки</Label>
+              <Select>
+                <SelectTrigger>
+                  <SelectValue placeholder="Выберите время" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="morning">Утро (9:00 - 12:00)</SelectItem>
+                  <SelectItem value="afternoon">День (12:00 - 15:00)</SelectItem>
+                  <SelectItem value="evening">Вечер (18:00 - 21:00)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="start-date">Дата первой доставки</Label>
+              <Input id="start-date" type="date" />
+            </div>
+            <div className="bg-muted/50 p-4 rounded-md">
+              <div className="flex items-start gap-2 mb-2">
+                <Icon name="Info" className="text-primary mt-0.5" size={16} />
+                <p className="text-sm text-muted-foreground">
+                  После оформления с вами свяжется наш менеджер для подтверждения заказа
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="flex gap-3">
+            <Button 
+              variant="outline" 
+              className="flex-1"
+              onClick={() => setSubscriptionDialogOpen(false)}
+            >
+              Отмена
+            </Button>
+            <Button 
+              className="flex-1"
+              onClick={() => {
+                setSubscriptionDialogOpen(false);
+                alert('Спасибо! Ваша заявка принята. Мы свяжемся с вами в ближайшее время.');
+              }}
+            >
+              Оформить подписку
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
