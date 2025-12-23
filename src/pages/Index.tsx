@@ -29,6 +29,7 @@ interface Subscription {
 const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [cartCount, setCartCount] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const products: Product[] = [
     {
@@ -161,6 +162,14 @@ const Index = () => {
           </nav>
 
           <div className="flex items-center gap-4">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden"
+              onClick={() => setMobileMenuOpen(true)}
+            >
+              <Icon name="Menu" size={24} />
+            </Button>
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="outline" size="icon" className="relative">
@@ -182,6 +191,93 @@ const Index = () => {
               </SheetContent>
             </Sheet>
           </div>
+        </div>
+      </header>
+
+      <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+        <SheetContent side="left" className="w-[300px]">
+          <SheetHeader>
+            <SheetTitle className="flex items-center gap-2">
+              <Icon name="Sprout" className="text-primary" size={24} />
+              <span>Элисса</span>
+            </SheetTitle>
+          </SheetHeader>
+          <nav className="flex flex-col gap-4 mt-8">
+            <button 
+              onClick={() => {
+                setActiveSection('home');
+                setMobileMenuOpen(false);
+              }}
+              className="text-left py-2 px-4 hover:bg-muted rounded-md transition-colors flex items-center gap-3"
+            >
+              <Icon name="Home" size={20} />
+              <span>Главная</span>
+            </button>
+            <button 
+              onClick={() => {
+                setActiveSection('catalog');
+                setMobileMenuOpen(false);
+              }}
+              className="text-left py-2 px-4 hover:bg-muted rounded-md transition-colors flex items-center gap-3"
+            >
+              <Icon name="ShoppingBag" size={20} />
+              <span>Каталог</span>
+            </button>
+            <button 
+              onClick={() => {
+                setActiveSection('subscriptions');
+                setMobileMenuOpen(false);
+              }}
+              className="text-left py-2 px-4 hover:bg-muted rounded-md transition-colors flex items-center gap-3"
+            >
+              <Icon name="Package" size={20} />
+              <span>Корзины</span>
+            </button>
+            <button 
+              onClick={() => {
+                setActiveSection('delivery');
+                setMobileMenuOpen(false);
+              }}
+              className="text-left py-2 px-4 hover:bg-muted rounded-md transition-colors flex items-center gap-3"
+            >
+              <Icon name="Truck" size={20} />
+              <span>Доставка</span>
+            </button>
+            <button 
+              onClick={() => {
+                setActiveSection('blog');
+                setMobileMenuOpen(false);
+              }}
+              className="text-left py-2 px-4 hover:bg-muted rounded-md transition-colors flex items-center gap-3"
+            >
+              <Icon name="BookOpen" size={20} />
+              <span>Блог</span>
+            </button>
+            <button 
+              onClick={() => {
+                setActiveSection('reviews');
+                setMobileMenuOpen(false);
+              }}
+              className="text-left py-2 px-4 hover:bg-muted rounded-md transition-colors flex items-center gap-3"
+            >
+              <Icon name="Star" size={20} />
+              <span>Отзывы</span>
+            </button>
+            <button 
+              onClick={() => {
+                setActiveSection('contacts');
+                setMobileMenuOpen(false);
+              }}
+              className="text-left py-2 px-4 hover:bg-muted rounded-md transition-colors flex items-center gap-3"
+            >
+              <Icon name="Phone" size={20} />
+              <span>Контакты</span>
+            </button>
+          </nav>
+        </SheetContent>
+      </Sheet>
+
+      <main>
         </div>
       </header>
 
