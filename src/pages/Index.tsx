@@ -278,10 +278,6 @@ const Index = () => {
       </Sheet>
 
       <main>
-        </div>
-      </header>
-
-      <main>
         {activeSection === 'home' && (
           <>
             <section className="relative h-[600px] flex items-center justify-center overflow-hidden">
